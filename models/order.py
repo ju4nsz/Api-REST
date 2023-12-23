@@ -3,6 +3,23 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, DECIMAL
 from sqlalchemy.orm import relationship
 
 class Order(Base):
+    """
+    Represents an order in the database.
+
+    Attributes:
+        order_id (int): The unique identifier for the order (primary key).
+        user_id (int): The user ID associated with the order (foreign key).
+        product_id (int): The product ID associated with the order (foreign key).
+        order_date (DateTime): The date and time when the order was placed.
+        dead_line (DateTime): The deadline for the order to be completed.
+        status (str): The current status of the order.
+        total (DECIMAL): The total cost of the order.
+        notes (str): Additional notes or comments related to the order.
+
+    Relationships:
+        user (User): The user associated with the order.
+        product (Product): The product associated with the order.
+    """
     
     __tablename__ = "orders"
     
