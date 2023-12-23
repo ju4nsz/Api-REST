@@ -25,6 +25,6 @@ class User(Base):
     password = Column(String(70))
     email = Column(String(50), unique=True, index=True)
     name = Column(String(50))
-    adress = Column(String(50))
+    address = Column(String(50))
     
     orders = relationship("Order", back_populates="user")
