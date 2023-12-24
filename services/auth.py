@@ -2,11 +2,11 @@ from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from data_access.user import UserAccess
+from database.get_db import get_db
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 from os import getenv
 from dotenv import load_dotenv
-from schemes.token import TokenData
 from datetime import timedelta, datetime
 
 load_dotenv()
@@ -17,8 +17,9 @@ class AuthService:
     """
     Service class for user authentication and token management.
     """
+    
 
-    def __init__(self, db: Session) -> None:
+    def __init__(self) -> None:
         """
         Initializes the AuthService with the database session.
 
@@ -27,7 +28,6 @@ class AuthService:
         """
         
         self.crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        self.user_data_access = UserAccess(db=db)
         
     def verify_password(self, password: str, db_password: str):
         """
@@ -45,7 +45,7 @@ class AuthService:
             return True
         return False
         
-    def authenticate_user(self, username: str, password: str):
+    def authenticate_user(self, username: str, password: str, db: Session = Depends(get_db)):
         """
         Authenticates a user based on the provided username and password.
 
@@ -57,7 +57,9 @@ class AuthService:
         - User object if authentication is successful, `None` otherwise.
         """
         
-        user = self.user_data_access.get_user_by_username(username=username)
+        user_data_access = UserAccess(db=db)
+        
+        user = user_data_access.get_user_by_username(username=username)
         
         if not user or not self.verify_password(password, user.password):
             return None
@@ -111,7 +113,7 @@ class AuthService:
         encoded_jwt = jwt.encode(to_encode, getenv("SECRET_KEY"), algorithm="HS256")
         return encoded_jwt
 
-    def get_current_user(self, token: str):
+    def get_current_user(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
         """
         Retrieves the current user from the JWT token.
 
@@ -133,7 +135,10 @@ class AuthService:
         
         payload = jwt.decode(token, getenv("SECRET_KEY"), algorithms=["HS256"])
         username: str = payload.get("sub")
+        
         if username is None:
-            raise credentials_exception    
-            
-        return TokenData(username=username)
+            raise credentials_exception
+        
+        user_data_access = UserAccess(db=db)    
+        
+        return user_data_access.get_user_by_username(username=username)

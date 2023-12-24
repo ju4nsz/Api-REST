@@ -35,11 +35,15 @@ class Order(OrderCreate):
         order_id (int): The unique identifier for the order.
         status (str): The current status of the order (default: "On the way").
         total (int): The total cost of the order.
+        order_date (datetime): The date and time when the order was placed.
+        dead_line (datetime): The deadline for the order to be completed.
     """
     
     order_id: int
     status: str = "On the way"
     total: int
+    order_date: datetime
+    dead_line: datetime
     
     class Config:
         """

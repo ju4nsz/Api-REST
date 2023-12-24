@@ -5,14 +5,13 @@ from sqlalchemy.orm import Session
 from controllers.user import user_router
 from database.config import engine
 from database.get_db import get_db
-from schemes.token import Token
 from services.auth import AuthService
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-@app.post("/token", response_model=Token)
+@app.post("/token")
 async def login_for_token(form_data: OAuth2PasswordRequestForm = Depends(),
                           db: Session = Depends(get_db)):
     """

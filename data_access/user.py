@@ -1,6 +1,7 @@
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 from models.user import User
+from models.order import Order
 from schemes.user import UserCreate
 
 class UserAccess:
@@ -63,3 +64,6 @@ class UserAccess:
         """
         
         return self.db.query(User).filter(User.email == email).first()
+    
+    async def get_orders(self, user_id: int):
+        return self.db.query(Order).filter(Order.user_id == user_id).all()

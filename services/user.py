@@ -52,3 +52,16 @@ class UserService:
             
         db_user = self.user_access.create_user(user=new_user)
         return db_user
+    
+    async def get_orders(self, username: str):
+        
+        db_user = self.user_access.get_user_by_username(username=username)
+        
+        if not db_user:
+            
+            return HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+            
+        return await self.user_access.get_orders(user_id=db_user.user_id)
