@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, status
 from schemes.user import UserCreate
 from data_access.user import UserAccess
 from sqlalchemy.orm import Session
@@ -39,14 +39,14 @@ class UserService:
         user = self.user_access.get_user_by_username(username=new_user.username)
         if user:
             raise HTTPException(
-                status_code=409,
+                status_code=status.HTTP_409_CONFLICT,
                 detail="Username already exists"
             )
             
         user = self.user_access.get_user_by_email(email=new_user.email)
         if user:
             raise HTTPException(
-                status_code=409,
+                status_code=status.HTTP_409_CONFLICT,
                 detail="Email already exists"
             )
             
