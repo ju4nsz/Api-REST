@@ -1,6 +1,6 @@
-from database.config import Base
 from sqlalchemy import Column, Integer, String, DateTime, DECIMAL
 from sqlalchemy.orm import relationship
+from database.config import Base
 
 class Product(Base):
     """
@@ -27,4 +27,4 @@ class Product(Base):
     created_date = Column(DateTime, index=True)
     stock = Column(Integer, index=True)
     
-    orders = relationship("Order", relationship="product")
+    orders = relationship("Order", back_populates="product")

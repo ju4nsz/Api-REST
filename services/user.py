@@ -19,6 +19,7 @@ class UserService:
         Parameters:
             db (Session): The database session.
         """
+        
         self.user_access = UserAccess(db=db)
         
     def create_user(self, new_user: UserCreate):
@@ -51,12 +52,3 @@ class UserService:
             
         db_user = self.user_access.create_user(user=new_user)
         return db_user
-
-        
-            
-            
-    
-            
-            
-    
-    

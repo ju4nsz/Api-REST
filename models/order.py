@@ -1,6 +1,6 @@
-from database.config import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, DECIMAL
 from sqlalchemy.orm import relationship
+from database.config import Base
 
 class Order(Base):
     """
