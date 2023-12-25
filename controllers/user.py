@@ -10,6 +10,10 @@ user_router = APIRouter(
     prefix="/user"
 )
 
+db: Session = Depends(get_db)
+
+auth_service = AuthService(db=db)
+
 @user_router.post("/v1/create", response_model=User)
 def create_user(new_user: UserCreate, db: Session = Depends(get_db)):
     """
@@ -31,7 +35,7 @@ def create_user(new_user: UserCreate, db: Session = Depends(get_db)):
     return user_service.create_user(new_user=new_user)
 
 @user_router.get("/v1/orders")
-async def get_orders(user: User = Depends(AuthService().get_current_user), 
+async def get_orders(user: User = Depends(auth_service.get_current_user), 
                      db: Session = Depends(get_db)):
     """
     Endpoint to retrieve orders for the authenticated user.

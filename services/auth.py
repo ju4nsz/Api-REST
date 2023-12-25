@@ -8,6 +8,7 @@ from jose import jwt, JWTError
 from os import getenv
 from dotenv import load_dotenv
 from datetime import timedelta, datetime
+from models.user import User
 
 load_dotenv()
 
@@ -19,7 +20,7 @@ class AuthService:
     """
     
 
-    def __init__(self) -> None:
+    def __init__(self, db: Session) -> None:
         """
         Initializes the AuthService with the database session.
 
@@ -27,6 +28,7 @@ class AuthService:
         - `db`: SQLAlchemy database session.
         """
         
+        self.db = db
         self.crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         
     def verify_password(self, password: str, db_password: str):
@@ -45,7 +47,7 @@ class AuthService:
             return True
         return False
         
-    def authenticate_user(self, username: str, password: str, db: Session = Depends(get_db)):
+    def authenticate_user(self, username: str, password: str):
         """
         Authenticates a user based on the provided username and password.
 
@@ -57,7 +59,7 @@ class AuthService:
         - User object if authentication is successful, `None` otherwise.
         """
         
-        user_data_access = UserAccess(db=db)
+        user_data_access = UserAccess(db=self.db)
         
         user = user_data_access.get_user_by_username(username=username)
         
