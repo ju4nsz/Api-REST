@@ -3,6 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from controllers.user import user_router
+from controllers.product import product_router
 from database.config import engine
 from database.get_db import get_db
 from services.auth import AuthService
@@ -43,3 +44,4 @@ async def login_for_token(form_data: OAuth2PasswordRequestForm = Depends(),
     return {"access_token": access_token, "token_type": "bearer"}    
 
 app.include_router(user_router)
+app.include_router(product_router)
