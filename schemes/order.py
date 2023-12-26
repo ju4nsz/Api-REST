@@ -6,13 +6,12 @@ class OrderBase(BaseModel):
     Pydantic model for the base attributes of an order.
 
     Attributes:
-        user_id (int): The user ID associated with the order.
-        product_id (int): The product ID associated with the order.
+        product_name (str): The product name associated with the order.
         notes (str | None): Additional notes or comments related to the order. It can be None.
     """
     
-    user_id: int
-    product_id: int
+    
+    product_name: str
     notes: str | None
     
 class OrderCreate(OrderBase):
@@ -20,12 +19,18 @@ class OrderCreate(OrderBase):
     Pydantic model for creating a new order.
 
     Attributes:
+        user_username (str): The username of the user associated with the order.
         order_date (datetime): The date and time when the order was placed.
         dead_line (datetime): The deadline for the order to be completed.
+        status (str): The current status of the order (default: "On the way").
+        total (int): The total cost of the order.
     """
     
+    user_username: str
     order_date: datetime
     dead_line: datetime
+    total: float
+    status: str = "On the way"
     
 class Order(OrderCreate):
     """
@@ -33,17 +38,9 @@ class Order(OrderCreate):
 
     Attributes:
         order_id (int): The unique identifier for the order.
-        status (str): The current status of the order (default: "On the way").
-        total (int): The total cost of the order.
-        order_date (datetime): The date and time when the order was placed.
-        dead_line (datetime): The deadline for the order to be completed.
     """
     
     order_id: int
-    status: str = "On the way"
-    total: int
-    order_date: datetime
-    dead_line: datetime
     
     class Config:
         """

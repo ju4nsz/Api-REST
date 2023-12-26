@@ -1,8 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from data_access.product import ProductAccess
-from schemes.product import ProductBase, ProductCreate
-from datetime import datetime
+from schemes.product import ProductCreate
 
 class ProductService:
     """

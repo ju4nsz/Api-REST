@@ -54,6 +54,18 @@ class UserService:
         return db_user
     
     async def get_orders(self, username: str):
+        """
+        Retrieves the orders associated with a user.
+
+        Parameters:
+            - `username` (str): The username of the user.
+
+        Returns:
+            - A list of orders associated with the user.
+
+        Raises:
+            - HTTPException: If the user with the specified username is not found (HTTP 404 Not Found).
+        """
         
         db_user = self.user_access.get_user_by_username(username=username)
         
@@ -64,4 +76,4 @@ class UserService:
                 detail="User not found"
             )
             
-        return await self.user_access.get_orders(user_id=db_user.user_id)
+        return await self.user_access.get_orders(user_username=username)

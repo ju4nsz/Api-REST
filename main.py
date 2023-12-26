@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from controllers.user import user_router
 from controllers.product import product_router
+from controllers.order import order_router
 from database.config import engine
 from database.get_db import get_db
 from services.auth import AuthService
@@ -45,3 +46,4 @@ async def login_for_token(form_data: OAuth2PasswordRequestForm = Depends(),
 
 app.include_router(user_router)
 app.include_router(product_router)
+app.include_router(order_router)

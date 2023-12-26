@@ -65,5 +65,15 @@ class UserAccess:
         
         return self.db.query(User).filter(User.email == email).first()
     
-    async def get_orders(self, user_id: int):
-        return self.db.query(Order).filter(Order.user_id == user_id).all()
+    async def get_orders(self, user_username: str):
+        """
+        Retrieves all orders associated with a user.
+
+        Parameters:
+            - `user_username` (str): The username of the user.
+
+        Returns:
+            - A list of orders associated with the user.
+        """
+        
+        return self.db.query(Order).filter(Order.user_username == user_username).all()
