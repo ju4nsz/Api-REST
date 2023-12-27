@@ -15,7 +15,7 @@ db: Session = Depends(get_db)
 
 auth_service = AuthService(db=db)
 
-@user_router.post("/new", response_model=User)
+@user_router.post("", response_model=User)
 def create_user(new_user: UserCreate, db: Session = Depends(get_db)):
     """
     Endpoint to create a new user.
