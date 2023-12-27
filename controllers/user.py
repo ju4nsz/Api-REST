@@ -7,14 +7,15 @@ from database.get_db import get_db
 from sqlalchemy.orm import Session
 
 user_router = APIRouter(
-    prefix="/user"
+    prefix="/v1/user",
+    tags=["User"]
 )
 
 db: Session = Depends(get_db)
 
 auth_service = AuthService(db=db)
 
-@user_router.post("/v1/create", response_model=User)
+@user_router.post("/new", response_model=User)
 def create_user(new_user: UserCreate, db: Session = Depends(get_db)):
     """
     Endpoint to create a new user.
@@ -34,7 +35,7 @@ def create_user(new_user: UserCreate, db: Session = Depends(get_db)):
     
     return user_service.create_user(new_user=new_user)
 
-@user_router.get("/v1/orders")
+@user_router.get("/orders")
 async def get_orders(user: User = Depends(auth_service.get_current_user), 
                      db: Session = Depends(get_db)):
     """
