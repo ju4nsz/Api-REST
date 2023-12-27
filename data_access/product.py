@@ -19,6 +19,20 @@ class ProductAccess:
         """
         
         self.db = db
+        
+    def get_products(self):
+        """
+        Retrieve all products from the database.
+
+        Returns:
+            List[Product]: A list of Product objects representing all products in the database.
+
+        Note:
+            This method executes a query to fetch all products from the database.
+            Make sure the database session (`self.db`) is properly configured and committed.
+        """
+        
+        return self.db.query(Product).all()
 
     def create_product(self, new_product: ProductCreate):
         """

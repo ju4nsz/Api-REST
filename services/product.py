@@ -46,3 +46,13 @@ class ProductService:
             )
 
         return self.product_access.create_product(new_product=new_product)
+    
+    def get_products(self):
+        """
+        Retrieve all products from the database.
+
+        Returns:
+            List[Product]: A list of products retrieved from the database.
+        """
+        
+        return self.product_access.get_products()
