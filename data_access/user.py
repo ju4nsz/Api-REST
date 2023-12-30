@@ -63,7 +63,7 @@ class UserAccess:
             User: The user with the specified email address.
         """
         
-        return self.db.query(User).filter(User.email == email).first()
+        return self.db.query(User).filter(User.email == email.lower()).first()
     
     async def get_orders(self, user_username: str):
         """

@@ -50,6 +50,8 @@ class UserService:
                 detail="Email already exists"
             )
             
+        new_user.email = new_user.email.lower()
+            
         db_user = self.user_access.create_user(user=new_user)
         return db_user
     
