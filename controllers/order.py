@@ -7,8 +7,8 @@ from services.auth import AuthService
 from database.get_db import get_db
 
 order_router = APIRouter(
-    prefix="/v1/order",
-    tags=["Order"]
+    prefix="/v1/orders",
+    tags=["Orders"]
 )
 
 db: Session = Depends(get_db)

@@ -10,8 +10,8 @@ from services.product import ProductService
 from database.get_db import get_db
 
 product_router = APIRouter(
-    prefix="/v1/product",
-    tags=["Product"]
+    prefix="/v1/products",
+    tags=["Products"]
 )
 
 db: Session = Depends(get_db)

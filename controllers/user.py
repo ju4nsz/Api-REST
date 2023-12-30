@@ -7,8 +7,8 @@ from database.get_db import get_db
 from sqlalchemy.orm import Session
 
 user_router = APIRouter(
-    prefix="/v1/user",
-    tags=["User"]
+    prefix="/v1/users",
+    tags=["Users"]
 )
 
 db: Session = Depends(get_db)
